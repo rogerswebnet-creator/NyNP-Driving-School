@@ -1,0 +1,901 @@
+{% extends 'students/base.html' %}
+
+{% block title %}
+    Instructor Dashboard | Driving School
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
+
+    .instructor-dashboard {
+        padding: 10px 0 40px;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .dashboard-header {
+        background: linear-gradient(
+            135deg,
+            #0d6efd,
+            #084298
+        );
+
+        color: white;
+
+        border-radius: 20px;
+
+        padding: 28px;
+
+        margin-bottom: 25px;
+
+        box-shadow: 0 8px 25px rgba(13, 110, 253, .18);
+    }
+
+    .dashboard-header h2 {
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .dashboard-header p {
+        margin-bottom: 5px;
+        opacity: .9;
+    }
+
+    .instructor-badge {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 6px;
+
+        background: rgba(255,255,255,.15);
+
+        border: 1px solid rgba(255,255,255,.25);
+
+        padding: 8px 14px;
+
+        border-radius: 30px;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       STAT CARDS
+       ===================================================== */
+
+    .stat-card {
+        border: none;
+
+        border-radius: 16px;
+
+        background: white;
+
+        box-shadow: 0 5px 18px rgba(0,0,0,.06);
+
+        height: 100%;
+
+        transition: .25s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+
+        box-shadow: 0 9px 25px rgba(0,0,0,.10);
+    }
+
+    .stat-icon {
+        width: 55px;
+        height: 55px;
+
+        border-radius: 14px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        font-size: 24px;
+    }
+
+    .stat-number {
+        font-size: 30px;
+
+        font-weight: 700;
+
+        margin: 0;
+    }
+
+    .stat-label {
+        color: #6c757d;
+
+        font-size: 14px;
+
+        margin-bottom: 4px;
+    }
+
+
+    /* =====================================================
+       QUICK ACTIONS
+       ===================================================== */
+
+    .action-card {
+        border: none;
+
+        border-radius: 16px;
+
+        background: white;
+
+        box-shadow: 0 5px 18px rgba(0,0,0,.06);
+    }
+
+    .action-btn {
+        border-radius: 10px;
+
+        padding: 12px 18px;
+
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       ATTENDANCE CARD
+       ===================================================== */
+
+    .attendance-card {
+        background: white;
+
+        border: none;
+
+        border-radius: 18px;
+
+        box-shadow: 0 5px 20px rgba(0,0,0,.06);
+
+        overflow: hidden;
+    }
+
+    .attendance-header {
+        padding: 20px 22px;
+
+        border-bottom: 1px solid #eee;
+    }
+
+    .attendance-header h5 {
+        font-weight: 700;
+
+        margin-bottom: 3px;
+    }
+
+
+    /* =====================================================
+       TABLE
+       ===================================================== */
+
+    .attendance-table {
+        margin-bottom: 0;
+    }
+
+    .attendance-table thead th {
+        background: #f8f9fa;
+
+        color: #495057;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        border-bottom: 1px solid #dee2e6;
+
+        padding: 14px;
+    }
+
+    .attendance-table tbody td {
+        padding: 14px;
+
+        vertical-align: middle;
+    }
+
+    .attendance-table tbody tr {
+        transition: .15s;
+    }
+
+    .attendance-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+
+    /* =====================================================
+       STATUS BADGES
+       ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        padding: 6px 10px;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+
+        font-weight: 600;
+    }
+
+    .status-awaiting {
+        background: #fff3cd;
+
+        color: #856404;
+    }
+
+    .status-confirmed {
+        background: #d1e7dd;
+
+        color: #0f5132;
+    }
+
+
+    /* =====================================================
+       CONFIRM BUTTON
+       ===================================================== */
+
+    .confirm-btn {
+        border-radius: 8px;
+
+        font-weight: 600;
+
+        padding: 6px 12px;
+    }
+
+
+    /* =====================================================
+       STUDENT INFO
+       ===================================================== */
+
+    .student-name {
+        font-weight: 600;
+
+        color: #212529;
+    }
+
+    .admission-number {
+        font-size: 12px;
+
+        color: #6c757d;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+       ===================================================== */
+
+    .empty-state {
+        padding: 55px 20px;
+
+        text-align: center;
+
+        color: #6c757d;
+    }
+
+    .empty-icon {
+        font-size: 45px;
+
+        margin-bottom: 12px;
+
+        opacity: .5;
+    }
+
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .dashboard-header {
+            padding: 22px;
+
+            border-radius: 15px;
+        }
+
+        .dashboard-header h2 {
+            font-size: 22px;
+        }
+
+        .stat-number {
+            font-size: 25px;
+        }
+
+        .attendance-table {
+            min-width: 700px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="instructor-dashboard">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="dashboard-header">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <div class="instructor-badge mb-3">
+
+                    <i class="bi bi-person-badge-fill"></i>
+
+                    INSTRUCTOR
+
+                </div>
+
+                <h2>
+
+                    <i class="bi bi-speedometer2 me-2"></i>
+
+                    Instructor Dashboard
+
+                </h2>
+
+                <p>
+                    Manage today's student attendance and class records.
+                </p>
+
+                <small>
+
+                    <i class="bi bi-calendar3 me-1"></i>
+
+                    {{ date|date:"l, d F Y" }}
+
+                </small>
+
+            </div>
+
+
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                <a
+                    href="{% url 'instructor_attendance' %}"
+                    class="btn btn-light fw-semibold"
+                >
+
+                    <i class="bi bi-arrow-clockwise me-1"></i>
+
+                    Refresh
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         STATISTICS
+         ===================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="stat-label">Total Students</p>
+                            <p class="stat-number text-primary">{{ total_students }}</p>
+                            <small class="text-muted">Registered in the school</small>
+                        </div>
+                        <div class="stat-icon bg-primary-subtle text-primary">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="stat-label">Active Students</p>
+                            <p class="stat-number text-success">{{ active_students }}</p>
+                            <small class="text-muted">Not archived</small>
+                        </div>
+                        <div class="stat-icon bg-success-subtle text-success">
+                            <i class="bi bi-person-check-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="stat-label">Archived Students</p>
+                            <p class="stat-number text-secondary">{{ archived_students }}</p>
+                            <small class="text-muted">Removed from active list</small>
+                        </div>
+                        <div class="stat-icon bg-secondary-subtle text-secondary">
+                            <i class="bi bi-archive-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="stat-label">Today's Sign-ins</p>
+                            <p class="stat-number text-primary">{{ total_signins_count|default:0 }}</p>
+                            <small class="text-muted">Students signed in today</small>
+                        </div>
+                        <div class="stat-icon bg-primary-subtle text-primary">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="stat-label">Pending Confirmation</p>
+                            <p class="stat-number text-warning">{{ pending_count }}</p>
+                            <small class="text-muted">Awaiting your confirmation</small>
+                        </div>
+                        <div class="stat-icon bg-warning-subtle text-warning">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="stat-label">Confirmed Today</p>
+                            <p class="stat-number text-success">{{ confirmed_count }}</p>
+                            <small class="text-muted">Attendance confirmed</small>
+                        </div>
+                        <div class="stat-icon bg-success-subtle text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+         ===================================================== -->
+
+    <div class="card action-card mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+
+                        <i class="bi bi-grid me-2 text-primary"></i>
+
+                        Quick Actions
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Access common instructor functions.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{% url 'students_list' %}"
+                        class="btn btn-outline-primary action-btn w-100"
+                    >
+
+                        <i class="bi bi-people-fill me-2"></i>
+
+                        View Students
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <a
+                        href="{% url 'instructor_attendance' %}"
+                        class="btn btn-primary action-btn w-100"
+                    >
+
+                        <i class="bi bi-calendar-check-fill me-2"></i>
+
+                        Today's Attendance
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ATTENDANCE
+         ===================================================== -->
+
+    <div class="card attendance-card">
+
+
+        <!-- HEADER -->
+
+        <div class="attendance-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5>
+
+                        <i class="bi bi-calendar-check-fill text-primary me-2"></i>
+
+                        Today's Attendance
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Review and confirm student sign-ins.
+
+                    </small>
+
+                </div>
+
+
+                {% if pending_count > 0 %}
+
+                    <span class="status-badge status-awaiting">
+
+                        <i class="bi bi-exclamation-circle"></i>
+                        {{ pending_count }} Pending
+
+                    </span>
+
+                {% else %}
+
+                    <span class="status-badge status-confirmed">
+
+                        <i class="bi bi-check-circle-fill"></i>
+                        All Confirmed
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div class="table-responsive">
+
+            <table class="table attendance-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Student</th>
+
+                        <th>Admission Number</th>
+
+                        <th>Sign-in Time</th>
+
+                        <th>Status</th>
+
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for a in attendances %}
+
+                        <tr>
+
+                            <!-- NUMBER -->
+
+                            <td>
+
+                                <span class="text-muted fw-semibold">
+
+                                    {{ forloop.counter }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- STUDENT -->
+
+                            <td>
+
+                                <div class="student-name">
+
+                                    {{ a.student.full_name }}
+
+                                </div>
+
+                                <div class="admission-number">
+
+                                    <i class="bi bi-person me-1"></i>
+
+                                    Student
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- ADMISSION -->
+
+                            <td>
+
+                                <span class="badge bg-light text-dark border">
+
+                                    {{ a.student.admission_number }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- TIME -->
+
+                            <td>
+
+                                <i class="bi bi-clock me-1 text-muted"></i>
+                                {{ a.sign_in_time|time:"H:i" }}
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                {% if a.status == 'AWAITING' %}
+
+                                    <span class="status-badge status-awaiting">
+
+                                        <i class="bi bi-hourglass-split"></i>
+
+                                        Awaiting Confirmation
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-badge status-confirmed">
+
+                                        <i class="bi bi-check-circle-fill"></i>
+
+                                        Confirmed
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ACTION -->
+
+                            <td class="text-end">
+
+                                {% if a.status == 'AWAITING' %}
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'confirm_attendance' a.id %}"
+                                        class="d-inline"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-success btn-sm confirm-btn"
+                                        >
+
+                                            <i class="bi bi-check-lg me-1"></i>
+
+                                            Confirm
+
+                                        </button>
+
+                                    </form>
+
+                                {% else %}
+
+                                    <span class="text-success fw-semibold">
+
+                                        <i class="bi bi-check-circle-fill me-1"></i>
+                                        Done
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+
+                    {% empty %}
+
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                <div class="empty-state">
+
+                                    <div class="empty-icon">
+
+                                        <i class="bi bi-calendar-x"></i>
+
+                                    </div>
+
+                                    <h5 class="fw-bold">
+
+                                        No Attendance Yet
+
+                                    </h5>
+
+                                    <p class="mb-0">
+
+                                        No students have signed in for today's class.
+
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        {% if attendances %}
+
+            <div class="p-3 border-top bg-light">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <small class="text-muted">
+
+                        <i class="bi bi-info-circle me-1"></i>
+                        Showing today's student attendance.
+
+                    </small>
+
+                    <small class="text-muted">
+
+                        Total: <strong>{{ attendances|length }}</strong>
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <div class="text-center text-muted small mt-4">
+
+        <i class="bi bi-shield-check me-1"></i>
+
+        Instructor Attendance Management
+
+        &copy;
+
+        {% now "Y" %}
+
+    </div>
+
+</div>
+
+{% endblock %}

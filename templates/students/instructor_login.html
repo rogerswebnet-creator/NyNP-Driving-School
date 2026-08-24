@@ -1,0 +1,56 @@
+{% extends 'students/base.html' %}
+{% block title %}Instructor Login{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-1">NYANDARUA NATIONAL POLYTECHNIC DRIVING SCHOOL</h3>
+                    <small class="text-white-50">Instructor Login</small>
+                </div>
+
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} mb-3">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">LOGIN</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="{% url 'password_reset' %}" class="text-decoration-none">Forgot password?</a>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-2">Need an instructor account?</p>
+                        <a href="{% url 'instructor_register' %}" class="btn btn-outline-primary w-100">
+                            REGISTER AS INSTRUCTOR
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center text-muted small py-3">
+                    Online Driving School Class Register System
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

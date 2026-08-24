@@ -1,0 +1,680 @@
+﻿{% extends 'students/base.html' %}
+{% load static %}
+
+{% block title %}
+    Nyandarua National Polytechnic | Driving School
+{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+body {
+    background: #f8f9fa;
+}
+
+.landing-page {
+    margin-top: -24px;
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero-section {
+    min-height: 610px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #0d6efd 0%,
+        #084298 100%
+    );
+
+    color: white;
+}
+
+.hero-section::before,
+.hero-section::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    pointer-events: none;
+}
+
+.hero-section::before {
+    width: 500px;
+    height: 500px;
+    right: -180px;
+    top: -180px;
+}
+
+.hero-section::after {
+    width: 350px;
+    height: 350px;
+    left: -170px;
+    bottom: -180px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.school-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.school-logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    border-radius: 16px;
+    padding: 8px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+}
+
+.school-name {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.school-department {
+    color: rgba(255,255,255,.75);
+    font-size: 14px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 15px;
+    margin-bottom: 18px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 20px;
+}
+
+.hero-title span {
+    color: #ffc107;
+}
+
+.hero-text {
+    max-width: 650px;
+    font-size: 18px;
+    line-height: 1.7;
+    opacity: .9;
+    margin-bottom: 28px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hero-btn {
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.hero-btn:hover {
+    transform: translateY(-2px);
+}
+
+.hero-visual {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.hero-car {
+    font-size: 185px;
+    color: rgba(255,255,255,.95);
+    filter: drop-shadow(0 20px 25px rgba(0,0,0,.25));
+}
+
+/* =====================================================
+   ACCESS CARDS
+===================================================== */
+
+.access-section {
+    margin-top: -55px;
+    position: relative;
+    z-index: 10;
+}
+
+.access-card {
+    height: 100%;
+    padding: 25px;
+    background: white;
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.12);
+    transition: .25s ease;
+}
+
+.access-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,.16);
+}
+
+.access-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.student-card .access-icon {
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+.instructor-card .access-icon {
+    background: #e8f7ef;
+    color: #198754;
+}
+
+.register-card .access-icon {
+    background: #fff3cd;
+    color: #997404;
+}
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.section {
+    padding: 75px 0;
+}
+
+.section-light {
+    background: #f8f9fa;
+}
+
+.section-title {
+    font-weight: 800;
+    color: #172033;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    max-width: 650px;
+    margin: 0 auto 45px;
+    color: #6c757d;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   FEATURES
+===================================================== */
+
+.feature-card {
+    height: 100%;
+    padding: 28px;
+    background: white;
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px rgba(0,0,0,.06);
+    transition: .25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border-radius: 15px;
+    background: #e7f1ff;
+    color: #0d6efd;
+    font-size: 25px;
+}
+
+.feature-card h5 {
+    font-weight: 700;
+}
+
+.feature-card p {
+    color: #6c757d;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* =====================================================
+   HOW IT WORKS
+===================================================== */
+
+.step-card {
+    height: 100%;
+    padding: 25px;
+    text-align: center;
+}
+
+.step-number {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #0d6efd;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.step-card h5 {
+    font-weight: 700;
+}
+
+.step-card p {
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   DRIVING CATEGORIES
+===================================================== */
+
+.category-card {
+    height: 100%;
+    padding: 20px;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 18px rgba(0,0,0,.05);
+    transition: .2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    border-color: #0d6efd;
+}
+
+.category-code {
+    font-size: 27px;
+    font-weight: 800;
+    color: #0d6efd;
+    margin-bottom: 5px;
+}
+
+.category-name {
+    color: #6c757d;
+    font-size: 13px;
+}
+
+/* =====================================================
+   CTA
+===================================================== */
+
+.cta-section {
+    padding: 65px 20px;
+    background: linear-gradient(135deg, #084298, #0d6efd);
+    color: white;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    max-width: 650px;
+    margin: 0 auto 25px;
+    opacity: .9;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.landing-footer {
+    padding: 38px 0;
+    background: #111827;
+    color: rgba(255,255,255,.7);
+}
+
+.landing-footer h5 {
+    color: white;
+    font-weight: 700;
+}
+
+.footer-link {
+    display: block;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,.65);
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 991px) {
+    .hero-section {
+        min-height: auto;
+        padding: 75px 0;
+    }
+    .hero-visual {
+        margin-top: 40px;
+    }
+    .hero-car {
+        font-size: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 55px 15px;
+    }
+    .hero-title {
+        font-size: 2.7rem;
+    }
+    .hero-text {
+        font-size: 16px;
+    }
+    .hero-buttons {
+        flex-direction: column;
+    }
+    .hero-btn {
+        width: 100%;
+    }
+    .access-section {
+        margin-top: -30px;
+    }
+    .section {
+        padding: 55px 0;
+    }
+    .school-logo {
+        width: 60px;
+        height: 60px;
+    }
+    .school-name {
+        font-size: 15px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="landing-page">
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 hero-content">
+                    <div class="school-brand">
+                        <img src="{% static 'images/nynp.jfif' %}" alt="Nyandarua National Polytechnic" class="school-logo">
+                        <div>
+                            <div class="school-name">NYANDARUA NATIONAL POLYTECHNIC</div>
+                            <div class="school-department">Driving School</div>
+                        </div>
+                    </div>
+
+                    <div class="hero-badge">
+                        <i class="bi bi-car-front-fill"></i>
+                        ONLINE DRIVING SCHOOL CLASS REGISTER
+                    </div>
+
+                    <h1 class="hero-title">
+                        Learn to Drive.
+                        <br>
+                        <span>Track Your Progress.</span>
+                    </h1>
+
+                    <p class="hero-text">
+                        A simple digital system for student registration,
+                        daily attendance, instructor confirmation and
+                        driving school record management.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="{% url 'login' %}" class="btn btn-light hero-btn">
+                            <i class="bi bi-person-fill me-2"></i>
+                            Student Login
+                        </a>
+                        <a href="{% url 'instructor_login' %}" class="btn btn-outline-light hero-btn">
+                            <i class="bi bi-person-badge-fill me-2"></i>
+                            Instructor Login
+                        </a>
+                        <a href="{% url 'register_choice' %}" class="btn btn-warning hero-btn">
+                            <i class="bi bi-person-plus-fill me-2"></i>
+                            Register
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="hero-visual">
+                        <div class="hero-car">
+                            <i class="bi bi-car-front-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="access-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="access-card student-card">
+                        <div class="access-icon"><i class="bi bi-person-fill"></i></div>
+                        <h5 class="fw-bold">Students</h5>
+                        <p class="text-muted">Sign in to view your profile, driving category and attendance.</p>
+                        <a href="{% url 'login' %}" class="btn btn-primary">Student Login</a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="access-card instructor-card">
+                        <div class="access-icon"><i class="bi bi-person-badge-fill"></i></div>
+                        <h5 class="fw-bold">Instructors</h5>
+                        <p class="text-muted">Review daily sign-ins and confirm student attendance.</p>
+                        <a href="{% url 'instructor_login' %}" class="btn btn-success">Instructor Login</a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="access-card register-card">
+                        <div class="access-icon"><i class="bi bi-person-plus-fill"></i></div>
+                        <h5 class="fw-bold">New Student</h5>
+                        <p class="text-muted">Create your student account and begin your driving school training.</p>
+                        <a href="{% url 'register_choice' %}" class="btn btn-warning">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Simple. Digital. Organized.</h2>
+                <p class="section-subtitle">The system brings the main driving school registration and attendance activities into one easy-to-use platform.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-person-plus-fill"></i></div>
+                        <h5>Student Registration</h5>
+                        <p>Register students and keep their driving school information organized.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-calendar-check-fill"></i></div>
+                        <h5>Daily Attendance</h5>
+                        <p>Students can sign in when they attend their driving class.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-person-check-fill"></i></div>
+                        <h5>Instructor Confirmation</h5>
+                        <p>Instructors can review and confirm student attendance records.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-search"></i></div>
+                        <h5>Student Search</h5>
+                        <p>Quickly find students using their name, ID or admission number.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Three simple steps for students.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h5>Register</h5>
+                        <p>Create your student account using your registration details.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h5>Sign In</h5>
+                        <p>Sign in for attendance when you arrive for your driving lesson.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h5>Get Confirmed</h5>
+                        <p>Your instructor reviews and confirms your attendance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Driving Classes</h2>
+                <p class="section-subtitle">The driving categories available in the registration system.</p>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">A1</div><div class="category-name">Light Motorcycle</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">A2</div><div class="category-name">Motorcycle</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">A3</div><div class="category-name">Commercial Motorcycle</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">B1</div><div class="category-name">Automatic Cars</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">B2</div><div class="category-name">Manual Cars</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">B3</div><div class="category-name">Professional Light Vehicle</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">C1</div><div class="category-name">Light Truck</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">C</div><div class="category-name">Heavy Truck</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">CE</div><div class="category-name">Truck + Trailer</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">D1</div><div class="category-name">Minibus</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">D2</div><div class="category-name">Medium Bus</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">D</div><div class="category-name">Large Bus</div></div></div>
+                <div class="col-6 col-md-3"><div class="category-card"><div class="category-code">E</div><div class="category-name">Special / Professional</div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Start Your Driving Journey?</h2>
+            <p>Create your account and use the online class register to manage your driving school attendance.</p>
+            <a href="{% url 'register_choice' %}" class="btn btn-warning btn-lg px-5 fw-bold">
+                <i class="bi bi-person-plus-fill me-2"></i>
+                Register Now
+            </a>
+        </div>
+    </section>
+
+    <footer class="landing-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-car-front-fill me-2"></i>NYANDARUA NATIONAL POLYTECHNIC</h5>
+                    <p class="mb-0">Driving School Online Class Register System. A simple platform for student registration and attendance management.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Access</h5>
+                    <a href="{% url 'login' %}" class="footer-link"><i class="bi bi-person me-1"></i>Student Login</a>
+                    <a href="{% url 'instructor_login' %}" class="footer-link"><i class="bi bi-person-badge me-1"></i>Instructor Login</a>
+                    <a href="{% url 'register_choice' %}" class="footer-link"><i class="bi bi-person-plus me-1"></i>Student Registration</a>
+                </div>
+                <div class="col-md-3">
+                    <h5>System</h5>
+                    <span class="footer-link"><i class="bi bi-shield-check me-1"></i>Secure Registration</span>
+                    <span class="footer-link"><i class="bi bi-calendar-check me-1"></i>Daily Attendance</span>
+                    <span class="footer-link"><i class="bi bi-search me-1"></i>Student Search</span>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="text-center">
+                <small>
+                    © {% now "Y" %}
+                    Nyandarua National Polytechnic Driving School.
+                    All rights reserved.
+                </small>
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}

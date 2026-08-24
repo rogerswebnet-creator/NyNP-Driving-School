@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if request.user.is_authenticated %}
+                    {% if request.user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Admin Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'students_list' %}active{% endif %}" href="{% url 'students_list' %}">Manage Students</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'instructor_attendance' %}active{% endif %}" href="{% url 'instructor_attendance' %}">Attendance Management</a>
+                        </li>
+                    {% elif request.user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Instructor Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'instructor_attendance' %}active{% endif %}" href="{% url 'instructor_attendance' %}">Today's Attendance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'students_list' %}active{% endif %}" href="{% url 'students_list' %}">Students</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Student Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'attendance_history' %}active{% endif %}" href="{% url 'attendance_history' %}">Attendance History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'sign_in_today' %}">Sign in for Today's Class</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Student Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'instructor_login' %}active{% endif %}" href="{% url 'instructor_login' %}">Instructor Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-light text-primary fw-semibold px-3 {% if request.resolver_match and request.resolver_match.url_name == 'register_choice' %}active{% endif %}" href="{% url 'register_choice' %}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

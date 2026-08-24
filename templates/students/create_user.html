@@ -1,0 +1,118 @@
+﻿{% extends 'students/base.html' %}
+{% block title %}Create User{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="mx-auto" style="max-width: 760px;">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Create User</h3>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.role.id_for_label }}">Role</label>
+                            {{ form.role }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label" for="{{ form.full_name.id_for_label }}">Full Name</label>
+                            {{ form.full_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.national_id_passport.id_for_label }}">National ID / Passport</label>
+                            {{ form.national_id_passport }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.gender.id_for_label }}">Gender</label>
+                            {{ form.gender }}
+                        </div>
+                        <div class="student-fields">
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.admission_number.id_for_label }}">Admission Number</label>
+                                {{ form.admission_number }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.driving_category.id_for_label }}">Driving Category</label>
+                                {{ form.driving_category }}
+                            </div>
+                        </div>
+
+                        <div class="instructor-fields">
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.instructor_licence_number.id_for_label }}">Instructor Licence Number</label>
+                                {{ form.instructor_licence_number }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.driving_licence_number.id_for_label }}">Driving Licence Number</label>
+                                {{ form.driving_licence_number }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.password1.id_for_label }}">Password</label>
+                            {{ form.password1 }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                            {{ form.password2 }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Create User</button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(){
+    const roleSelect = document.querySelector('select[name="role"]');
+    const studentFields = document.querySelectorAll('.student-fields .col-md-6');
+    const instructorFields = document.querySelectorAll('.instructor-fields .col-md-6');
+
+    function updateVisibility(){
+        const val = roleSelect ? roleSelect.value : '';
+        if(val === 'student'){
+            studentFields.forEach(el=> el.style.display='block');
+            instructorFields.forEach(el=> el.style.display='none');
+        } else if(val === 'instructor'){
+            studentFields.forEach(el=> el.style.display='none');
+            instructorFields.forEach(el=> el.style.display='block');
+        } else {
+            studentFields.forEach(el=> el.style.display='none');
+            instructorFields.forEach(el=> el.style.display='none');
+        }
+    }
+
+    if(roleSelect){
+        roleSelect.addEventListener('change', updateVisibility);
+    }
+
+    // run once on load
+    document.addEventListener('DOMContentLoaded', updateVisibility);
+    // also run immediately in case DOMContentLoaded already fired
+    updateVisibility();
+})();
+</script>
+
+{% endblock %}

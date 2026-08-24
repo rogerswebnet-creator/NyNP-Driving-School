@@ -1,0 +1,321 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #edf4ff 0%, #f8fbff 100%);
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+        }
+
+        .register-shell {
+            max-width: 1100px;
+            margin: 36px auto 60px;
+        }
+
+        .register-card {
+            border: none;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(13, 61, 122, 0.12);
+            background: #fff;
+        }
+
+        .brand-panel {
+            background: linear-gradient(180deg, #0d6efd 0%, #0b4ea2 100%);
+            color: white;
+            padding: 42px 28px;
+        }
+
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 18px;
+            background: rgba(255,255,255,.16);
+            padding: 8px;
+            margin-bottom: 18px;
+            display: block;
+        }
+
+        .brand-panel h2 {
+            font-size: clamp(1.6rem, 2vw, 2.1rem);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .brand-panel p {
+            color: rgba(255,255,255,.9);
+            font-size: 0.98rem;
+            margin-bottom: 24px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .feature-list .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ffd857;
+            display: inline-block;
+            box-shadow: 0 0 0 4px rgba(255,216,87,.18);
+        }
+
+        .login-link-box {
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .form-panel {
+            padding: 36px 30px;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .title-row h3 {
+            margin: 0;
+            color: #0b1630;
+            font-weight: 800;
+        }
+
+        .mini-badge {
+            background: #eaf3ff;
+            color: #0d6efd;
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+        }
+
+        .form-label {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 48px;
+            border-radius: 12px;
+            border: 1px solid #d9e3f0;
+            background: #f9fbff;
+            padding: 0.75rem 0.9rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13,110,253,.12);
+            background: #fff;
+        }
+
+        .error-text {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 6px;
+        }
+
+        .non-field-errors {
+            background: #fff3f3;
+            border: 1px solid #fecaca;
+            color: #b42318;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+        }
+
+        .register-btn {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0d6efd, #0b4ea2);
+            color: white;
+            min-height: 52px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 18px;
+        }
+
+        .register-btn:hover {
+            background: linear-gradient(135deg, #0b5ed7, #083d8a);
+            color: white;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #4b5563;
+        }
+
+        .login-link a {
+            color: #0d6efd;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        @media (max-width: 991.98px) {
+            .brand-panel {
+                padding-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+{% include 'students/_navbar.html' %}
+
+<div class="container register-shell">
+    <div class="card register-card">
+        <div class="row g-0">
+            <div class="col-lg-5 brand-panel">
+                <img src="{% static 'images/nynp.jfif' %}" alt="Nyandarua National Polytechnic Driving School logo" class="brand-logo">
+                <h2>NYANDARUA NATIONAL<br>POLYTECHNIC DRIVING SCHOOL</h2>
+                <p>Register as a new student and start your driving class journey with a safe, simple and efficient learning process.</p>
+
+                <ul class="feature-list">
+                    <li><span class="dot"></span> Easy online student registration</li>
+                    <li><span class="dot"></span> Track your class attendance</li>
+                    <li><span class="dot"></span> Choose your driving category</li>
+                </ul>
+
+                <div class="login-link-box">
+                    <a href="{% url 'login' %}" class="btn btn-light btn-sm px-3">
+                        Back to Login
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-7 form-panel">
+                <div class="title-row">
+                    <h3>Create Student Account</h3>
+                    <span class="mini-badge">NEW STUDENT</span>
+                </div>
+
+                {% if form.non_field_errors %}
+                    <div class="non-field-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.admission_number.id_for_label }}" class="form-label">Admission Number <span class="required">*</span></label>
+                            {{ form.admission_number }}
+                            {% if form.admission_number.errors %}
+                                <div class="error-text">{{ form.admission_number.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.full_name.id_for_label }}" class="form-label">Full Name <span class="required">*</span></label>
+                            {{ form.full_name }}
+                            {% if form.full_name.errors %}
+                                <div class="error-text">{{ form.full_name.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number <span class="required">*</span></label>
+                            {{ form.phone_number }}
+                            {% if form.phone_number.errors %}
+                                <div class="error-text">{{ form.phone_number.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="error-text">{{ form.email.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.national_id_passport.id_for_label }}" class="form-label">National ID / Passport</label>
+                            {{ form.national_id_passport }}
+                            {% if form.national_id_passport.errors %}
+                                <div class="error-text">{{ form.national_id_passport.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
+                            {{ form.gender }}
+                            {% if form.gender.errors %}
+                                <div class="error-text">{{ form.gender.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.driving_category.id_for_label }}" class="form-label">Driving Category <span class="required">*</span></label>
+                            {{ form.driving_category }}
+                            {% if form.driving_category.errors %}
+                                <div class="error-text">{{ form.driving_category.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">Password <span class="required">*</span></label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="error-text">{{ form.password1.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password <span class="required">*</span></label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="error-text">{{ form.password2.errors|join:', ' }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn register-btn">Register Student</button>
+                </form>
+
+                <div class="login-link">
+                    Already have an account? <a href="{% url 'login' %}">Login here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

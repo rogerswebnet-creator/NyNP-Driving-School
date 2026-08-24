@@ -1,0 +1,29 @@
+{% extends 'students/base.html' %}
+{% block title %}Attendance History{% endblock %}
+{% block content %}
+<h2>Attendance History</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Sign-in Time</th>
+            <th>Status</th>
+            <th>Confirmed By</th>
+            <th>Confirmation Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in attendances %}
+            <tr>
+                <td>{{ a.date }}</td>
+                <td>{{ a.sign_in_time }}</td>
+                <td>{{ a.get_status_display }}</td>
+                <td>{% if a.confirmed_by %}{{ a.confirmed_by.username }}{% else %}&mdash;{% endif %}</td>
+                <td>{{ a.confirmation_time }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">No attendance records found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
